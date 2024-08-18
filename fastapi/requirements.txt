@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pymysql
+sqlalchemy
+aiomysql
+python-dotenv
+cryptography
+pyjwt
+httpx
+firebase_admin
