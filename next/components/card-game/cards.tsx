@@ -45,13 +45,17 @@ const Cards = () => {
             setMyMemberId(context.room.member.id);
         }
 
-        firebaseListener(context.room.id, (message: string) => {
-            console.log("New Event" + context.room.id);
-            console.log("New Event from firebase:", message);
-            const parsedMessage = JSON.parse(message);
-            const room = parsedMessage[context.room.id];
-            console.log("New Event" + room);
-        });
+        if (context.room.id) {
+            firebaseListener(context.room.id, (message: string) => {
+                console.log("New Event" + context.room.id);
+                console.log("New Event from firebase:", message);
+                const parsedMessage = JSON.parse(message);
+                const room = parsedMessage[context.room.id];
+                console.log("New Event" + room);
+            });
+        } else {
+            console.error("Room ID is null");
+        }
     }, [context.room]);
 
     return (
