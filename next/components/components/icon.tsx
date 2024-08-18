@@ -7,7 +7,7 @@ interface Props {
   showEdge?: boolean;
 }
 export function Icon({ name, showEdge }: Props) {
-    const src = `/icon/${name}.svg`;
+    const src = `icon/${name}.svg`;
     return <Image alt={name} src={src} width={32} height={32}/>;
 }
 
