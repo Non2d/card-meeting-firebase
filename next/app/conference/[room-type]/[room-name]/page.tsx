@@ -103,18 +103,6 @@ const ConferencePage: React.FC<{ params: { "room-type": string; "room-name": str
                         <RemoteStreams />
                         <LocalStream />
                         <CardControlCenter />
-                        <Image src="/card-meet/icon/cast.svg" alt="Icon A" width={50} height={50} />
-                        <Image src="/icon/cast.svg" alt="Icon A" width={50} height={50} />
-                        <Image src="/cast.svg" alt="Icon A" width={50} height={50} />
-                        <Image src="cast.svg" alt="Icon A" width={50} height={50} />
-                        <Image src="icon/cast.svg" alt="Icon A" width={50} height={50} />
-                        <Image src="public/icon/cast.svg" alt="Icon A" width={50} height={50} />
-                        <Image src="/public/icon/cast.svg" alt="Icon A" width={50} height={50} />
-                        <Image src="@/icon/cast.svg" alt="Icon A" width={50} height={50} />
-                        <Image src="/card-meet/icon/cast.svg" alt="Icon A" width={50} height={50} />
-                        <Image src="/card-meet/public/icon/cast.svg" alt="Icon A" width={50} height={50} />
-                        <Image src="card-meet/public/icon/cast.svg" alt="Icon A" width={50} height={50} />
-                        <Image src="card-meet/icon/cast.svg" alt="Icon A" width={50} height={50} />
                     </RightMenu>
 
                     {/* Modal Layer */}
