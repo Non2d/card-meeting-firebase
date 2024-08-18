@@ -30,7 +30,7 @@ services:
     ports:
       - "7770:3000"
     networks:
-      - card_meet_network
+      - cm_fb_network
 
   fastapi:
     container_name: cm_fb--backend
