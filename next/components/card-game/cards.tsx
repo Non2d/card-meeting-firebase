@@ -50,7 +50,8 @@ const Cards = () => {
                 console.log("New Event" + context.room.id);
                 console.log("New Event from firebase:", message);
                 const parsedMessage = JSON.parse(message);
-                const room = parsedMessage[context.room!.id]; // null indexは絶対許されない！ !で保証する
+                const roomId = context.room.id!;
+                const room = parsedMessage[roomId]; // null indexは絶対許されない！ !で保証する
                 console.log("New Event" + room);
             });
         } else {
