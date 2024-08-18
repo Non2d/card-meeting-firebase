@@ -45,7 +45,7 @@ const Cards = () => {
             setMyMemberId(context.room.member.id);
         }
 
-        if (context.room && context.room.id) {
+        if (context.room && typeof context.room.id === 'string') {
             firebaseListener(context.room.id, (message: string) => {
                 console.log("New Event" + context.room.id);
                 console.log("New Event from firebase:", message);
