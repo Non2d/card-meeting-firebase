@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import Head from "next/head";
 import debug from "debug";
 import packageInfo from "../../../../package.json";
+import Image from "next/image";
 
 import Card from "../../../../components/card-game/card";
 import Cards from "../../../../components/card-game/cards";
@@ -102,6 +103,18 @@ const ConferencePage: React.FC<{ params: { "room-type": string; "room-name": str
                         <RemoteStreams />
                         <LocalStream />
                         <CardControlCenter />
+                        <Image src="/card-meet/icon/cast.svg" alt="Icon A" width={50} height={50} />
+                        <Image src="/icon/cast.svg" alt="Icon A" width={50} height={50} />
+                        <Image src="/cast.svg" alt="Icon A" width={50} height={50} />
+                        <Image src="cast.svg" alt="Icon A" width={50} height={50} />
+                        <Image src="icon/cast.svg" alt="Icon A" width={50} height={50} />
+                        <Image src="public/icon/cast.svg" alt="Icon A" width={50} height={50} />
+                        <Image src="/public/icon/cast.svg" alt="Icon A" width={50} height={50} />
+                        <Image src="@/icon/cast.svg" alt="Icon A" width={50} height={50} />
+                        <Image src="/card-meet/icon/cast.svg" alt="Icon A" width={50} height={50} />
+                        <Image src="/card-meet/public/icon/cast.svg" alt="Icon A" width={50} height={50} />
+                        <Image src="card-meet/public/icon/cast.svg" alt="Icon A" width={50} height={50} />
+                        <Image src="card-meet/icon/cast.svg" alt="Icon A" width={50} height={50} />
                     </RightMenu>
 
                     {/* Modal Layer */}
