@@ -7,8 +7,8 @@ interface Props {
   showEdge?: boolean;
 }
 export function Icon({ name, showEdge }: Props) {
-    console.log("process.env.NODE_ENV:"+ process.env.NODE_ENV);
-    const src = `${process.env.NODE_ENV !== 'development' ? '/card-meet' : ''}/icon/${name}.svg`;
+    const src = `${process.env.NODE_ENV === 'production' ? '/card-meet' : ''}/icon/${name}.svg`;
+    
     return <Image alt={name} src={src} width={32} height={32}/>;
 }
 
@@ -18,10 +18,10 @@ export function BrowserIcon({ name, version }: ClientBrowser) {
     case "Chrome":
     case "Firefox":
     case "Safari":
-      src = `/icon/icon-${name.toLowerCase()}.svg`; //Chrome or Firefox or Safariという意味． breakついてないからね
+      src = `${process.env.NODE_ENV === 'production' ? '/card-meet' : ''}/icon/icon-${name.toLowerCase()}.svg`; //Chrome or Firefox or Safariという意味． breakついてないからね
       break;
     case "Microsoft Edge":
-      src = "/icon/icon-edge.svg";
+      src = `${process.env.NODE_ENV !== 'production' ? '/card-meet' : ''}/icon/icon-edge.svg`;
       break;
   }
 

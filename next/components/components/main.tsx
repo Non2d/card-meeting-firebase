@@ -5,8 +5,10 @@ interface Props {
 }
 
 function Main({ children }: Props) {
+  const backgroundImageUrl = `${process.env.NODE_ENV !== 'development' ? '/card-meet' : ''}/icon/logo.svg`;
+
   return (
-    <div className="relative w-full h-full bg-center bg-no-repeat" style={{ backgroundImage: "url(/icon/logo.svg)" }}>
+    <div className="relative w-full h-full bg-center bg-no-repeat" style={{ backgroundImage: `url(${backgroundImageUrl})` }}>
       {children}
     </div>
   );
