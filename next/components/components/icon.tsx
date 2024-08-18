@@ -7,7 +7,8 @@ interface Props {
   showEdge?: boolean;
 }
 export function Icon({ name, showEdge }: Props) {
-    const src = `/icon/${name}.svg`;
+    console.log("process.env.NODE_ENV:"+ process.env.NODE_ENV);
+    const src = `${process.env.NODE_ENV !== 'development' ? '/card-meet' : ''}/icon/${name}.svg`;
     return <Image alt={name} src={src} width={32} height={32}/>;
 }
 
