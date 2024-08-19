@@ -63,7 +63,7 @@ function LocalStreamLayout({
             title="Open settings"
             onClick={onClickOpenSettings}
           />
-          {isMinimize ? (
+          {/* {isMinimize ? (
             <IconButton
               name="keyboard_arrow_right"
               showEdge={true}
@@ -77,7 +77,7 @@ function LocalStreamLayout({
               title="Minimize"
               onClick={() => setMinimize(true)}
             />
-          )}
+          )} */}
         </div>
         {isInfoShown && (
           <div className="absolute inset-0 z-10">

@@ -1,6 +1,7 @@
 import { useState, ReactNode } from "react";
 import { zIndex, rightMenuWidth, rightMenuTogglerHeight } from "../utils/style";
 import { IconButton } from "./icon";
+import CardControlCenter from "../card-game/card-control-center";
 
 interface Props {
   children: ReactNode;
@@ -26,12 +27,8 @@ function RightMenu({ children, openers }: Props) {
           height: rightMenuTogglerHeight,
           top: 0,
         }}
-        onClick={() => setVisible(!isVisible)}
       >
-        <IconButton
-          name={isVisible ? "chevron_right" : "chevron_left"}
-          onClick={() => setVisible(!isVisible)}
-        />
+        <CardControlCenter />
       </div>
       {openers.map((opener, idx) => (
         <div

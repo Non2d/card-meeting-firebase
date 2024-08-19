@@ -89,11 +89,10 @@ const ConferencePage: React.FC<{ params: { "room-type": string; "room-name": str
                     </Main>
                     <Cards channelId={roomType+"_"+roomName}/>
                     <RightMenu
-                        openers={[<StatsOpener key="stats" />, <ExitOpener key="exit" />]}
+                        openers={[<StatsOpener key="stats" />, <ExitOpener key="exit" channelId={roomType+"_"+roomName}/>]}
                     >
                         <RemoteStreams />
                         <LocalStream />
-                        <CardControlCenter />
                     </RightMenu>
 
                     {/* Modal Layer */}

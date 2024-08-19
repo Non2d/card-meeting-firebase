@@ -140,7 +140,6 @@ class RoomStore {
       console.log('A member has left the room');
 
       if (this.room !== null && this.member !== null) {
-        // console.log("I AM IN " + JSON.stringify(this.room));　こいつのせいでエラーになった
         const API_URL_prefix = process.env.NODE_ENV === "development" ? "http://localhost:7771" : "https://vps4.nkmr.io/card-meet/v1";
         try {
           const response = await fetch(API_URL_prefix + "/rooms/" + this.member.roomName + "/" + this.member.id, {
