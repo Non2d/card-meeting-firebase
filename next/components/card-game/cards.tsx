@@ -44,7 +44,7 @@ const Cards = ({ channelId }: { channelId: string }) => {
         const db = getDatabase();
         const dbRef = ref(db, `/${channelId}/members`);
         const unsubscribe = onValue(dbRef, (snapshot) => {
-            setMyMemberId(context?.room?.member?.id ?? null); // デフォルト値を設定
+            setMyMemberId(context?.room?.member?.id ?? ""); // デフォルト値を設定
         });
 
         return () => unsubscribe();

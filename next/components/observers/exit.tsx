@@ -16,7 +16,7 @@ export function ExitOpener({ channelId }: { channelId: string }) {
     const db = getDatabase();
     const dbRef = ref(db, `/${channelId}`);
     const unsubscribe = onValue(dbRef, (snapshot) => {
-      setMyMemberId(context?.room?.member?.id ?? null); // デフォルト値を設定
+      setMyMemberId(context?.room?.member?.id ?? ""); // デフォルト値を設定
     });
 
     console.log("kokoda firebase fired: " + myMemberId);
