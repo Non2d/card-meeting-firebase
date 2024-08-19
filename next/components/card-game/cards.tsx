@@ -41,14 +41,14 @@ const Cards = ({ channelId }: { channelId: string }) => {
     }, [])
 
     useEffect(() => {
-        const db = getDatabase()
+        const db = getDatabase();
         const dbRef = ref(db, `/${channelId}/members`);
         const unsubscribe = onValue(dbRef, (snapshot) => {
-            setMyMemberId(context?.room?.member?.id);
+            setMyMemberId(context?.room?.member?.id ?? null); // デフォルト値を設定
         });
 
         return () => unsubscribe();
-    }, []);
+    }, [channelId, context?.room?.member?.id]);
 
     return (
         <>
