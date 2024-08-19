@@ -1,74 +1,76 @@
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue } from "firebase/database";
-import { useContext, useEffect, useState } from 'react';
-import { StoreContext } from '../conference/contexts'; // Assuming StoreContext is defined in this path
+import Card from "./card";
+// import { getApp } from "firebase/app";
+import { useEffect, useState, useContext } from 'react'
+import { getDatabase, onValue, ref } from '@firebase/database'
+import { FirebaseError } from '@firebase/util'
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAPiJMyuPP3EvHePzP2CH8x48t7WTHOB2M",
-  authDomain: "card-meeting-firebase.firebaseapp.com",
-  databaseURL: "https://card-meeting-firebase-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "card-meeting-firebase",
-  storageBucket: "card-meeting-firebase.appspot.com",
-  messagingSenderId: "700011609528",
-  appId: "1:700011609528:web:ae36a39fab7ef565bea34d",
-  measurementId: "G-1PG06DHXSY"
-};
+import LeftBottom from "../components/left-bottom";
+import CenterTop from "../components/center-top";
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+import { StoreContext } from '../conference/contexts';
 
-const firebaseListener = (channel_id:string, onNewMessage: (message: string) => void) => {
-  if (typeof onNewMessage !== 'function') {
-    throw new Error('onNewMessage must be a function');
-  }
+const Cards = ({ channelId }: { channelId: string }) => {
+    // console.log("Firebase Connected"+JSON.stringify(getApp())); //firebaseが接続されているか確認
 
-  const dataRef = ref(database, '/'+channel_id);
-  onValue(dataRef, (snapshot: any) => {
-    const data = snapshot.val();
-    onNewMessage(JSON.stringify(data));
-  });
-};
-
-type CardData = {
-    id: number;
-    state: string;
-    content: string;
-};
-
-const Cards = () => {
     const context = useContext(StoreContext);
+    const [cards, setCards] = useState<{ message: string }[]>([])
     const [myMemberId, setMyMemberId] = useState<string | null>(null);
+    useEffect(() => {
+        try {
+            const db = getDatabase()
+            const dbRef = ref(db, `/${channelId}/cards`)
+            return onValue(dbRef, (snapshot) => {
+                const cardDatas = snapshot.val()
+                if (!cardDatas) {
+                    return
+                }
+                const filteredCardDatas = []
+                for (let i = 0; i < cardDatas.length; i++) {
+                    if (cardDatas[i]) {
+                        filteredCardDatas.push({ "id": i, "state": cardDatas[i].state, "content": cardDatas[i].content })
+                    }
+                }
+                setCards(filteredCardDatas)
+            })
+        } catch (e) {
+            if (e instanceof FirebaseError) {
+                console.error(e)
+            }
+            return
+        }
+    }, [])
 
     useEffect(() => {
-        if (context.room.member){
-            setMyMemberId(context.room.member.id);
-        }
+        const db = getDatabase()
+        const dbRef = ref(db, `/${channelId}/members`);
+        const unsubscribe = onValue(dbRef, (snapshot) => {
+            setMyMemberId(context?.room?.member?.id);
+        });
 
-        if (context.room && typeof context.room.id === 'string') {
-            firebaseListener(context.room.id, (message: string) => {
-                console.log("New Event" + context.room.id);
-                console.log("New Event from firebase:", message);
-                const parsedMessage = JSON.parse(message);
-                const roomId = context.room.id!;
-                const room = parsedMessage[roomId]; // null indexは絶対許されない！ !で保証する
-                console.log("New Event" + room);
-            });
-        } else {
-            console.error("Room ID is null");
-        }
-    }, [context.room]);
+        return () => unsubscribe();
+    }, []);
 
     return (
-        <div>
-            {/* <div className="flex flex-row gap-4">
-                {messages.map((message) => (
-                    message !== myMemberId && (
-                        <Card key={message} id={message} context={context} state={message} content={message} />
-                    )
-                ))}
-            </div> */}
-        </div>
+        <>
+            <CenterTop>
+                <div className="flex justify-center items-center gap-4">
+                    {cards.map((card) => (
+                        card.state === 'Field' && (
+                            <Card key={card.id} id={card.id} state={card.state} content={card.content} channelId={channelId} myMemberId={myMemberId} />
+                        )
+                    ))}
+                </div>
+            </CenterTop>
+            <LeftBottom>
+                <div className="flex justify-center items-center gap-4">
+                    {cards.map((card) => (
+                        card.state === myMemberId && (
+                            <Card key={card.id} id={card.id} state={card.state} content={card.content} channelId={channelId} myMemberId={myMemberId} />
+                        )
+                    ))}
+                </div>
+            </LeftBottom>
+        </>
     );
 };
 

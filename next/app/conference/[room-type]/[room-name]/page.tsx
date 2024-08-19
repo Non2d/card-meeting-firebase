@@ -11,26 +11,26 @@ import RemoteStreams from "../../../../components/observers/remote-streams";
 import Layout from "./layout"; //app/conference/conponents/layout.tsx
 import ErrorDetail from "../../../../components/components/error-detail";
 import Main from "../../../../components/components/main";
-import LeftBottom from "../../../../components/components/left-bottom";
-import CenterTop from "../../../../components/components/center-top";
+// import LeftBottom from "../../../../components/components/left-bottom";
+// import CenterTop from "../../../../components/components/center-top";
 import RightMenu from "../../../../components/components/right-menu";
 import { ErrorBoundary } from "react-error-boundary";
 import { useEffect } from "react";
 import Head from "next/head";
 import debug from "debug";
 import packageInfo from "../../../../package.json";
-import Image from "next/image";
 
-import Card from "../../../../components/card-game/card";
+// import Card from "../../../../components/card-game/card";
 import Cards from "../../../../components/card-game/cards";
-import CardsField from "../../../../components/card-game/cards_field";
 import CardControlCenter from "../../../../components/card-game/card-control-center";
-// import SSETestComponent from "../../../../components/card-game/test-sse";
-// import LeftBottomHorizontal from "../../../../components/components/left-bottom-horizontal";
+
+import { initializeFirebaseApp } from "../../../../components/utils/firebase";
 
 const log = debug("main");
 
 const ConferencePage: React.FC<{ params: { "room-type": string; "room-name": string } }> = ({ params }) => {
+    initializeFirebaseApp();
+
     const { "room-type": roomType, "room-name": roomName } = params;
 
     useEffect(() => {
@@ -87,16 +87,7 @@ const ConferencePage: React.FC<{ params: { "room-type": string; "room-name": str
                     <Main>
                         <PinnedStream />
                     </Main>
-                    <LeftBottom>
-                        <Cards />
-                    </LeftBottom>
-                    {/* <LeftBottom>
-                        <Cards />
-                    </LeftBottom> */}
-                    {/* <CenterTop>
-                        <CardsField />
-                    </CenterTop> */}
-
+                    <Cards channelId={roomType+"_"+roomName}/>
                     <RightMenu
                         openers={[<StatsOpener key="stats" />, <ExitOpener key="exit" />]}
                     >
