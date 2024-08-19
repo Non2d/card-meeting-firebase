@@ -1,7 +1,10 @@
 import React from 'react';
 
-const Card = ({ id, content, state, channelId, myMemberId }: any) => {
+const Card = ({ id, content, state, channelId, myMemberId, disabled }: any) => {
     const handleClick = async () => {
+        if (disabled) {
+            return;
+        }
         console.log(`Card clicked: ${id}`);
         // 他の処理をここに追加
         const API_URL_prefix = process.env.NODE_ENV === "development" ? "http://localhost:7771" : "https://vps4.nkmr.io/card-meet/v1";

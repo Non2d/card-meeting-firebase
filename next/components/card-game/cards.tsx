@@ -14,7 +14,7 @@ const Cards = ({ channelId }: { channelId: string }) => {
 
     const context = useContext(StoreContext);
     const [cards, setCards] = useState<{ id: number, state: string, content: string }[]>([]);
-    const [myMemberId, setMyMemberId] = useState<string | null>(null);
+    const [myMemberId, setMyMemberId] = useState<string>("");
     useEffect(() => {
         try {
             const db = getDatabase()
@@ -56,7 +56,7 @@ const Cards = ({ channelId }: { channelId: string }) => {
                 <div className="flex justify-center items-center gap-4">
                     {cards.map((card) => (
                         card.state === 'Field' && (
-                            <Card key={card.id} id={card.id} state={card.state} content={card.content} channelId={channelId} myMemberId={myMemberId} />
+                            <Card key={card.id} id={card.id} state={card.state} content={card.content} channelId={channelId} myMemberId={myMemberId} disabled={true} />
                         )
                     ))}
                 </div>
