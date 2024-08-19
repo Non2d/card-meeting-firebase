@@ -10,7 +10,7 @@ import { getDatabase, ref, onValue } from '@firebase/database';
 export function ExitOpener({ channelId }: { channelId: string }) {
   const context = useContext(StoreContext);
 
-  const [myMemberId, setMyMemberId] = useState<string | null>(null);
+  const [myMemberId, setMyMemberId] = useState<string>("");
 
   useEffect(() => {
     const db = getDatabase();
@@ -24,7 +24,12 @@ export function ExitOpener({ channelId }: { channelId: string }) {
     return () => unsubscribe();
   }, [channelId, context?.room?.member?.id]);
 
-  const onClickExitRoom = useCallback(() => exitRoom({ channelId, myMemberId }), [channelId, myMemberId]); //これにより、channel idもmymember idも最新の状態で渡せる
+  const onClickExitRoom = useCallback(() => {
+    if (channelId && myMemberId) {
+      exitRoom({ channelId, myMemberId });
+    }
+  }, [channelId, myMemberId]); //これにより、channel idもmymember idも最新の状態で渡せる
+
   return (
     <Observer>
       {() => <IconButton name="exit_to_app" onClick={onClickExitRoom} />}
