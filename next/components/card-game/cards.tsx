@@ -13,7 +13,7 @@ const Cards = ({ channelId }: { channelId: string }) => {
     // console.log("Firebase Connected"+JSON.stringify(getApp())); //firebaseが接続されているか確認
 
     const context = useContext(StoreContext);
-    const [cards, setCards] = useState<{ message: string }[]>([])
+    const [cards, setCards] = useState<{ id: number, state: string, content: string }[]>([]);
     const [myMemberId, setMyMemberId] = useState<string | null>(null);
     useEffect(() => {
         try {
