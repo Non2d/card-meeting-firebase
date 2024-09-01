@@ -24,6 +24,8 @@ import packageInfo from "../../../../package.json";
 import Cards from "../../../../components/card-game/cards";
 import CardControlCenter from "../../../../components/card-game/card-control-center";
 
+import FavButton from "../../../../components/card-game/fav-button";
+
 import { initializeFirebaseApp } from "../../../../components/utils/firebase";
 
 const log = debug("main");
@@ -72,10 +74,10 @@ const ConferencePage: React.FC<{ params: { "room-type": string; "room-name": str
                 <meta name="viewport" content="width=device-width" />
                 <link href="/icon/favicon.ico" rel="shortcut icon" />
                 <title>SkyWay Conference</title>
-                <meta name="description" content="SkyWayを使った多人数会議アプリのサンプルです。" />
+                <meta name="description" content="カードゲームで積極的な議論を促すWeb会議アプリケーション" />
                 <meta property="og:type" content="website" />
-                <meta property="og:title" content="SkyWay Conference - SkyWayを使ったデモアプリ" />
-                <meta property="og:description" content="SkyWayを使った多人数会議アプリのサンプルです。" />
+                <meta property="og:title" content="Cardgame Meeting" />
+                <meta property="og:description" content="カードゲームで積極的な議論を促すWeb会議アプリケーションです。" />
                 <meta property="og:image" content="https://skyway.ntt.com/ogp.png" />
                 <meta name="twitter:image" content="https://skyway.ntt.com/ogp.png" />
                 <meta name="twitter:card" content="summary_large_image" />
@@ -87,12 +89,13 @@ const ConferencePage: React.FC<{ params: { "room-type": string; "room-name": str
                     <Main>
                         <PinnedStream />
                     </Main>
-                    <Cards channelId={roomType+"_"+roomName}/>
+                    <Cards channelId={roomType + "_" + roomName} />
                     <RightMenu
-                        openers={[<StatsOpener key="stats" />, <ExitOpener key="exit" channelId={roomType+"_"+roomName}/>]}
+                        openers={[<StatsOpener key="stats" />, <ExitOpener key="exit" channelId={roomType + "_" + roomName} />]}
                     >
                         <RemoteStreams />
                         <LocalStream />
+                        <FavButton />
                     </RightMenu>
 
                     {/* Modal Layer */}

@@ -5,7 +5,8 @@ import { getDatabase, onValue, ref } from '@firebase/database'
 import { FirebaseError } from '@firebase/util'
 
 import LeftBottom from "../components/left-bottom";
-import CenterTop from "../components/center-top";
+// import CenterTop from "../components/center-top";
+import CenterField from "../components/center-card-field";
 
 import { StoreContext } from '../conference/contexts';
 
@@ -19,7 +20,7 @@ const Cards = ({ channelId }: { channelId: string }) => {
         try {
             const db = getDatabase()
             const dbRef = ref(db, `/${channelId}/cards`)
-            return onValue(dbRef, (snapshot) => {
+            return onValue(dbRef, (snapshot: any) => {
                 const cardDatas = snapshot.val()
                 if (!cardDatas) {
                     return
@@ -43,7 +44,7 @@ const Cards = ({ channelId }: { channelId: string }) => {
     useEffect(() => {
         const db = getDatabase();
         const dbRef = ref(db, `/${channelId}/members`);
-        const unsubscribe = onValue(dbRef, (snapshot) => {
+        const unsubscribe = onValue(dbRef, (snapshot: any) => {
             setMyMemberId(context?.room?.member?.id ?? ""); // デフォルト値を設定
         });
 
@@ -52,7 +53,7 @@ const Cards = ({ channelId }: { channelId: string }) => {
 
     return (
         <>
-            <CenterTop>
+            <CenterField>
                 <div className="flex justify-center items-center gap-4">
                     {cards.map((card) => (
                         card.state === 'Field' && (
@@ -60,7 +61,7 @@ const Cards = ({ channelId }: { channelId: string }) => {
                         )
                     ))}
                 </div>
-            </CenterTop>
+            </CenterField>
             <LeftBottom>
                 <div className="flex justify-center items-center gap-4">
                     {cards.map((card) => (

@@ -24,9 +24,8 @@ function RoomCreate(props: Props) {
         props.onSubmit({ mode: roomType as RoomInit["mode"], id: roomName });
       }}
     >
-      <h1 className="text-blue-500 text-4xl text-center">Card-Game-Based Meeting</h1>
+      <h1 className="text-blue-500 text-4xl text-center mb-4">Card Game Meeting</h1>
       <div className="grid grid-cols-[100px_1fr] items-center h-10 mb-1 text-left">
-
         <div>ROOM NAME</div>
         <input
           type="text"
