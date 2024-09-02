@@ -53,8 +53,20 @@ async def join_room(channel_id: str, member_id: str, member_info: MemberInfo):
         raise HTTPException(status_code=404, detail=f"Room {channel_id} does not exist.")
     else:
         ref = get_db(f"/{channel_id}/members") # この操作は、membersリストが無くても強行されるので注意！
-        ref.child(member_id).set({'name': member_info.name})
+        ref.child(member_id).set({'name': member_info.name, 'fav_num': 0})
         return f"Member {member_id} joined to room {channel_id}."
+
+class FavNum(BaseModel):
+    fav_num: int = Field(..., example=0)
+
+@router.post("/rooms/{channel_id}/{member_id}/fav_num", response_model=str)
+async def set_fav_num(channel_id: str, member_id: str, fav_num: FavNum): #ここで、fav_num:intとするとクエリパラメータ扱いになる
+    ref = get_db(f"/{channel_id}/members/{member_id}")
+    if ref.get() is None:
+        raise HTTPException(status_code=404, detail=f"Member {member_id} does not exist in room {channel_id}.")
+    else:
+        ref.update({'fav_num': fav_num.fav_num})
+        return f"Member {member_id} set fav_num={fav_num} in room {channel_id}."
 
 @router.delete("/rooms/{channel_id}/{member_id}", response_model=str)
 async def leave_room_and_auto_redeal(channel_id: str, member_id: str):
@@ -109,14 +121,26 @@ async def submit_card(background_tasks: BackgroundTasks, channel_id: str, card_i
         
         card['state'] = "Field"
         cards_ref.child(str(card_id)).update(card)
-        
-        # 5秒後に自動でランダムに1名に配布する
-        background_tasks.add_task(auto_redeal, channel_id, card_id, 5)
+
+        field_card_id_list = []
+        for i in range(len(cards)):
+            if cards[i]['state'] == "Field" and i != card_id:
+                field_card_id_list.append(i)
+        if len(field_card_id_list) > 1:
+            # 2枚以上の場合は、ランダムに1枚を選んで再配布
+            await deal_card(channel_id, random.choice(field_card_id_list))
+        # else:
+        #     # 60秒後に自動でランダムに1名に配布する
+        #     background_tasks.add_task(auto_redeal, channel_id, card_id, 60)
         
         return f"Submit card {card_id} in room {channel_id}."
 
 async def auto_redeal(channel_id:str, card_id:int, delay:int):
     await asyncio.sleep(delay)
+    # card_ref = get_db(f"/{channel_id}/cards/{card_id}")
+    # card = card_ref.get()
+    # if card is not None and card['state'] == "Field":
+    # 本来ならこのように、時間経過以外のロジックで再配布された場合、このバックグラウンドタスクをキャンセルするロジックが必要
     await deal_card(channel_id, card_id)
 
 @router.get("/cards/deal-all/{channel_id}", response_model=str)

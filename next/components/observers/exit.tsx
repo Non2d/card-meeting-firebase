@@ -15,7 +15,7 @@ export function ExitOpener({ channelId }: { channelId: string }) {
   useEffect(() => {
     const db = getDatabase();
     const dbRef = ref(db, `/${channelId}`);
-    const unsubscribe = onValue(dbRef, (snapshot) => {
+    const unsubscribe = onValue(dbRef, (snapshot:any) => {
       setMyMemberId(context?.room?.member?.id ?? ""); // デフォルト値を設定
     });
 

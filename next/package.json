@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.5.4",
     "@skyway-sdk/room": "^1.8.1",
     "debug": "^4.3.5",
     "firebase": "^10.13.0",
