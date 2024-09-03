@@ -51,12 +51,12 @@ function LocalStreamLayout({
               onClick={onClickCastVideo}
             />
           )}
-          <IconButton
+          {/* <IconButton
             name="info"
             showEdge={true}
             title="Toggle stream info"
             onClick={() => setInfoShown(!isInfoShown)}
-          />
+          /> */}
           <IconButton
             name="settings"
             showEdge={true}

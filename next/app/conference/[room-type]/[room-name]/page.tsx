@@ -25,7 +25,7 @@ import Cards from "../../../../components/card-game/cards";
 import CardControlCenter from "../../../../components/card-game/card-control-center";
 
 import FavButton from "../../../../components/card-game/fav-button";
-// import Favorite from "../../../../components/card-game/fav_anim_parent";
+
 
 import { initializeFirebaseApp } from "../../../../components/utils/firebase";
 
@@ -92,12 +92,16 @@ const ConferencePage: React.FC<{ params: { "room-type": string; "room-name": str
                         <PinnedStream />
                     </Main>
                     <Cards channelId={roomType + "_" + roomName} />
+                    <div className="absolute top-4 left-4">
+                        <FavButton channelId={roomType + "_" + roomName} />
+                    </div>
+
                     <RightMenu
                         openers={[<StatsOpener key="stats" />, <ExitOpener key="exit" channelId={roomType + "_" + roomName} />]}
                     >
                         <RemoteStreams />
                         <LocalStream />
-                        <FavButton channelId={roomType + "_" + roomName}/>
+
                         {/* <Favorite /> */}
                     </RightMenu>
 

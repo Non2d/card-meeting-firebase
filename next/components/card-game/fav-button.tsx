@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { getDatabase, onValue, ref } from '@firebase/database';
 import { StoreContext } from '../conference/contexts';
 import { FirebaseError } from '@firebase/util';
+import FavAnim from "./fav-anim";
 
 interface MemberData {
   fav_num: number;
@@ -13,6 +14,7 @@ function FavButton({ channelId }: { channelId: string }) {
   const [myMemberId, setMyMemberId] = useState<string>("");
   const context = useContext(StoreContext);
   const [favSum, setFavSum] = useState(0);
+  const [showFavAnim, setShowFavAnim] = useState(false);
 
   useEffect(() => {
     try {
@@ -36,7 +38,7 @@ function FavButton({ channelId }: { channelId: string }) {
       }
     }
   }, [channelId]);
-       
+
 
   useEffect(() => {
     const db = getDatabase();
@@ -51,6 +53,11 @@ function FavButton({ channelId }: { channelId: string }) {
   const handleClick = async () => {
     const newFavNum = favNum + 1;
     setFavNum(newFavNum);
+
+    setShowFavAnim(true);
+    setTimeout(() => {
+      setShowFavAnim(false);
+    }, 1200);
 
     const API_URL_prefix = process.env.NODE_ENV === "development" ? "http://localhost:7771" : "https://vps4.nkmr.io/card-meet/v1";
     try {
@@ -70,16 +77,20 @@ function FavButton({ channelId }: { channelId: string }) {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex justify-center items-center bg-white text-black font-bold py-2 px-4 mt-20">
+      <div className="flex justify-center items-center bg-white text-black font-bold py-2 px-4 mt-5">
         みんなのいいね数: {favSum}
       </div>
-      <button
-        onClick={handleClick}
-        className="flex justify-center items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded"
-      >
-        {/* {favNum} 何回いいねしてるか直接見えない方がデザインとしていいかも？？ 勘だけど */}
-        👍
-      </button>
+      {showFavAnim ? (
+        <FavAnim />
+      ) : (
+        <button
+          onClick={handleClick}
+          className="flex justify-center items-center border-2 border-blue-300 bg-blue-300 text-blue-800 font-bold py-2 px-4 mt-4 rounded hover:border-blue-500 hover:bg-blue-500 hover:text-white"
+        >
+          {/* {favNum} 自分が何回いいねしてるか直接見えない方がデザインとしていいかも？？ 勘だけど */}
+          いいね👍
+        </button>
+      )}
     </div>
   );
 }

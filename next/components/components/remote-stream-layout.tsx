@@ -39,12 +39,12 @@ function RemoteStreamLayout({
               onClick={onClickSetPinned}
             />
           ) : null}
-          <IconButton
+          {/* <IconButton
             name="info"
             showEdge={true}
             title="Toggle stream info"
             onClick={() => setInfoShown(!isInfoShown)}
-          />
+          /> */}
         </div>
         {isInfoShown && stat !== null ? (
           <div className="absolute inset-0 z-10">
